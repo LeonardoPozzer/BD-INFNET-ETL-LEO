@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: dim_cliente
+    description: "Dimensão de clientes com dados cadastrais e indicadores de comportamento de compra."
+
+    tests:
+      - unique_all_columns
+      - not_null_all_columns
+
+    columns:
+      - name: customer_id
+        description: "Identificador único do cliente."
+        tests:
+          - unique
+          - not_null
+
+      - name: frequencia
+        description: "Quantidade de pedidos realizados pelo cliente."
+
+      - name: recencia_dias
+        description: "Dias desde a última compra do cliente."
+
+      - name: valor_total_gasto
+        description: "Valor total gasto pelo cliente."
+
+      - name: categoria_cliente
+        description: "Categoria do cliente conforme regras de RFM."
+
+
+  - name: dim_produto
+    description: "Dimensão contendo as principais informações dos produtos."
+
+    tests:
+      - unique_all_columns
+      - not_null_all_columns
+
+    columns:
+      - name: product_id
+        description: "Identificador único do produto."
+        tests:
+          - unique
+          - not_null
+
+      - name: product_category_name
+        description: "Categoria do produto."
+
+
+  - name: dim_vendedor
+    description: "Dimensão contendo informações dos vendedores."
+
+    tests:
+      - unique_all_columns
+      - not_null_all_columns
+
+    columns:
+      - name: seller_id
+        description: "Identificador único do vendedor."
+        tests:
+          - unique
+          - not_null
+
+
+  - name: fato_vendas
+    description: "Tabela fato contendo os itens vendidos e seus respectivos valores."
+
+    columns:
+      - name: customer_id
+        description: "Cliente associado à venda."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_cliente')
+                field: customer_id
+
+      - name: product_id
+        description: "Produto associado à venda."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_produto')
+                field: product_id
+
+      - name: seller_id
+        description: "Vendedor associado à venda."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_vendedor')
+                field: seller_id
+
+      - name: valor_total
+        description: "Soma do valor do produto com o valor do frete."
