@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: consumo
+    database: globalstream-pozzer
+    schema: globalstream_pozzer
+
+    tables:
+      - name: stg_clientes
+      - name: stg_itens_pedido
+      - name: stg_pedidos
+      - name: stg_produtos
+      - name: stg_vendedores
