@@ -3,9 +3,12 @@
     LOWER(
         TRIM(
             REPLACE(
-                COALESCE({{ coluna }}, 'nao_informado'),
-                '_',
-                ' '
+                COALESCE(
+                    {{ coluna }},
+                    '{{ var("valor_nulo_texto") }}'
+                ),
+                ' ',
+                '_'
             )
         )
     )

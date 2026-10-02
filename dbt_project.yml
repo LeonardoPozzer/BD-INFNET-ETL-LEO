@@ -24,3 +24,6 @@ models:
 
     marts:
       +materialized: table
+
+vars:
+  valor_nulo_texto: 'nao_informado'      
